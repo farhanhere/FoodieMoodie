@@ -1,34 +1,38 @@
+
 import React from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { app } from "./Firebase";
 import { getDatabase, ref, onValue, set, update } from "firebase/database";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import LikedButton from './LikedButton';
 
 
 export default function Bestseller()  {
-    const [myfav, setMyfav] = useState([])
+    const [myfood, setMyfood] = useState([])
 
     useEffect(() => {
 
 
         const db = getDatabase(app);
-        const dbRef = ref(db, 'BestSeller');
+        const dbRef = ref(db, 'food');
         onValue(dbRef, (snapshot) => {
             let data = snapshot.val();
 
-            setMyfav(data)
+            setMyfood(data)
             // console.log("data is ",data[2])
 
         });
     }, [])
+
+
     return (
 
 
         <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            data={myfav}
+            data={myfood}
             renderItem={({ item }) => (
 
                 <TouchableOpacity>
@@ -39,8 +43,9 @@ export default function Bestseller()  {
                         <Text style={styles.title}>{item.title}</Text>
                         <Text style={styles.price}>Rs.{item.price}/-</Text>
                         </View>
-                        <View style={styles.viewrow}>
-                        <AntDesign name='hearto' style={{color:'black',fontSize:17,textAlign:'right'}} />
+                        <View style={styles.viewrow}> 
+
+                        <LikedButton like={item.liked} id={item.key} />
                         <View style={{flexDirection:'row',marginTop:10}}>
                          <AntDesign name='staro' style={styles.icon} />
                          <Text style={styles.rating}>{item.rating}</Text>

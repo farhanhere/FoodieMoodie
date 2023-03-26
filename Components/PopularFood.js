@@ -4,20 +4,21 @@ import { useState,useEffect } from 'react';
 import { app } from "./Firebase";
 import { getDatabase, ref, onValue, set, update } from "firebase/database";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import LikedButton from './LikedButton';
 
 
 export default function PopularFood() {
 
-  const [mypopular, setMypopular] = useState([])
+  const [myfood, setMyfood] = useState([])
 
   useEffect(() => {
 
 
       const db = getDatabase(app);
-      const dbRef = ref(db, 'Popularfood');
+      const dbRef = ref(db, 'food');
       onValue(dbRef, (snapshot) => {
           let data = snapshot.val();
-          setMypopular(data)
+          setMyfood(data)
          // console.log("data is ",data[2])
 
       });
@@ -28,17 +29,19 @@ export default function PopularFood() {
          <FlatList
            horizontal
            showsHorizontalScrollIndicator={false}
-          data={mypopular}
+          data={myfood}
           keyExtractor={item=>item.key}
           renderItem={({item})=>(
 
             <TouchableOpacity >
             
             <View style={styles.item}>
-                        <View style={{flexDirection:"row"}}>
+                        <View style={{flexDirection:"row", marginBottom:2}}>
                         <AntDesign name='staro' style={styles.icon} />
                         <Text style={styles.rating}>{item.rating}</Text> 
-                        <AntDesign name='hearto' style={{color:'black',fontSize:17,marginLeft:118}} />
+                        <View style={{marginLeft:118}}>
+                        <LikedButton like={item.liked} id={item.key} />
+                        </View>
                         </View>
                         <Image style={styles.Images} source={{uri: item.img}} />
                         <Text style={styles.title}>{item.title}</Text>

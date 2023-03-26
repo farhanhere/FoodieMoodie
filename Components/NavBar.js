@@ -11,7 +11,7 @@ export default function NavBar() {
     return (
 
 
-        <View style={{flexDirection:'row', backgroundColor: 'white',borderRadius:5,justifyContent:'center',alignItems:'center' }}>
+        <View style={styles.NavBar}>
         
         <AntDesign style={styles.icon} name='home'/>
         <AntDesign style={styles.icon}  name='hearto'/>
@@ -24,9 +24,14 @@ export default function NavBar() {
 
 const styles = StyleSheet.create({
 
+  NavBar:{
+  flexDirection:'row', 
+  backgroundColor: 'white',
+  justifyContent:'center',
+  alignItems:'center',
+  marginTop:10 },
   icon:{
     fontSize:30,
     padding:35,
-    
   }
 });
