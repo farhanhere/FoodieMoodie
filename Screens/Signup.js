@@ -1,25 +1,102 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import { auth } from "./firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { CheckBox } from 'react-native-elements';
+
+
 
 const Signup = ({ navigation }) => {
 
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleSignup = async () => {
+    console.log('LOGGED');
+    if (!email || !name || !password || !confirmPassword) {
+      Alert.alert('All fields are required');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Password should be match');
+      return;
+    }
+    if (!isChecked) {
+      Alert.alert('Please accept the Terms of Use & Privacy Policy');
+      return;
+    }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Successful");
+      const user = userCredential.user;
+      console.log("User data,", user);
+  
+      // write code to save your data in firestore
+      // FirebaseError.firestore.write(user.uid,user.uid)
+  
+      Alert.alert(
+        'Registered Successfully, Please Login',
+        '',
+        [
+          {text: 'OK', onPress: () => navigation.navigate('Login')}
+        ]
+      );
+      setEmail('');
+    setName('');
+    setPassword('');
+    setConfirmPassword('');
+    setIsChecked(false);
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log('Error Code == ', errorCode)
+      console.log('Error Message == ', errorMessage)
+      Alert.alert('Registration Failed', errorMessage);
+    }
+  };
+  
   const goToLogin = () => {
     navigation.navigate('Login');
   };
+
+
+
+
 
   return (
 
     <View style={styles.container}>
       <Text style={styles.text1}>Email</Text>
-      <TextInput style={styles.fields} placeholder="E-mail" ></TextInput>
+      <TextInput style={styles.fields} placeholder="E-mail" value={email} onChangeText={setEmail}></TextInput>
       <Text style={styles.texts}>Name</Text>
-      <TextInput style={styles.fields} placeholder="Full Name" ></TextInput>
+      <TextInput style={styles.fields} placeholder="Full Name" value={name} onChangeText={setName} ></TextInput>
       <Text style={styles.texts}>Password</Text>
-      <TextInput style={styles.fields} placeholder="Create Password" ></TextInput>
+      <View style={styles.passwordcontainer}>
+        <TextInput style={styles.textinput} placeholder="Create Password" secureTextEntry={!showPassword}  value={password} onChangeText={setPassword}></TextInput>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <AntDesign name={showPassword ? "eyeo" : "eye"} style={styles.icons} />
+        </TouchableOpacity>
+      </View>
       <Text style={styles.texts}>Confirm Password</Text>
-      <TextInput style={styles.fields} placeholder="Confirm Password" ></TextInput>
-    <Text style={styles.termstext}>I accept the Terms of Use & Privacy Policy</Text>
-    <TouchableOpacity style={styles.Login}  >
+      <View style={styles.passwordcontainer}>
+        <TextInput style={styles.textinput} placeholder="Confirm Password" secureTextEntry={!showConfirmPassword} value={confirmPassword} onChangeText={setConfirmPassword}></TextInput>
+        <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+          <AntDesign name={showConfirmPassword ? "eyeo" : "eye"} style={styles.icons} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.CheckBox}>
+      <CheckBox checked={isChecked} onPress={() => setIsChecked(!isChecked)}/>
+      <Text style={styles.termstext}>I accept the Terms of Use & Privacy Policy</Text>
+      </View>
+      <TouchableOpacity style={styles.Login} onPress={handleSignup} >
         <View style={styles.LoginButton}>
           <Text style={styles.Logintext}>Create Account</Text>
         </View>
@@ -31,9 +108,9 @@ const Signup = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      
+
       <TouchableOpacity onPress={goToLogin}><Text style={styles.already}>Already on foodie moodie? Sign up</Text></TouchableOpacity>
-    
+
     </View>
   );
 }
@@ -55,6 +132,26 @@ const styles = StyleSheet.create({
     borderRadius: 10,
 
   },
+  passwordcontainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 330,
+    height: 50,
+    backgroundColor: "#fff",
+    marginLeft: 30,
+    marginTop: 10,
+    paddingLeft: 10,
+    borderRadius: 10
+  },
+  textinput: {
+    flex: 1,
+    fontSize: 15
+  },
+  icons:{
+    fontSize:24,
+    color: 'black',
+    marginRight:7
+  },
   text1: {
     marginTop: 20,
     marginLeft: 30,
@@ -67,10 +164,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold'
   },
-  termstext:{
-    fontWeight:'600',
-    marginTop:20,
-    marginLeft:70,
+  CheckBox: {
+    flexDirection: 'row',
+    marginTop: 10,
+    paddingLeft:10,
+ 
+  },
+  termstext: {
+    fontWeight: '600',
+    marginTop: 18,
   },
   Login: {
     width: 330,
@@ -112,11 +214,11 @@ const styles = StyleSheet.create({
   },
   already: {
     marginLeft: 90,
-    marginTop: 180,
+    marginTop: 150,
     fontWeight: 'bold',
     color: 'grey'
   }
 });
 
 
-export {Signup};
+export { Signup };

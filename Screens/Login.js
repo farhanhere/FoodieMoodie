@@ -1,9 +1,44 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity,Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,Image, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import logo from '../assets/logo.png'
 
+
+import {auth} from "./firebase";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+
+
 const Login = ({ navigation }) => {
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    console.log('Handle Sign In')
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("user data,", user);
+        // console.log("user data,", user);
+        // ...
+       // Alert.alert('SignIn Successfully');
+        navigation.navigate('Home');
+        setEmail('');
+        setPassword('');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Error,", errorMessage);
+        // ..
+        Alert.alert('Invalid Email or password');
+      });
+  };
+
+  
 
   const goToSignup = () => {
     navigation.navigate('Signup');
@@ -24,16 +59,19 @@ const Login = ({ navigation }) => {
 
       <View style={styles.emailContainer}>
         <AntDesign name='mail' style={styles.icon} />
-        <TextInput style={styles.textinput} placeholder="E-mail" ></TextInput>
+        <TextInput style={styles.textinput} placeholder="E-mail" value={email} onChangeText={setEmail}></TextInput>
       </View>
       <View style={styles.passwordcontainer}>
         <AntDesign name='lock' style={styles.icon} />
-        <TextInput style={styles.textinput} secureTextEntry={true} placeholder="Password"></TextInput>
+        <TextInput style={styles.textinput} secureTextEntry={showPassword} placeholder="Password" value={password} onChangeText={setPassword}></TextInput>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <AntDesign name={showPassword ? "eyeo" : "eye"} style={styles.icon} />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity><Text style={styles.forget}>Forget password?</Text></TouchableOpacity>
 
-      <TouchableOpacity style={styles.Login}  onPress={goToHome} >
+      <TouchableOpacity style={styles.Login}  onPress={handleLogin} >
         <View style={styles.LoginButton}>
           <Text style={styles.Logintext}>Login</Text>
         </View>
@@ -46,7 +84,7 @@ const Login = ({ navigation }) => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={goToSignup}><Text style={styles.new}>New on foodie moodie? Sign up</Text></TouchableOpacity>
-
+     
     </View>
   );
 }

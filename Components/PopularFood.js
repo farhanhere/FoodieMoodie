@@ -1,7 +1,7 @@
 
 import { StyleSheet, Text, View,FlatList, TouchableOpacity,Image} from 'react-native';
 import { useState,useEffect } from 'react';
-import { app } from "./Firebase";
+import { app } from "../Screens/firebase";
 import { getDatabase, ref, onValue, set, update } from "firebase/database";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import LikedButton from './LikedButton';
@@ -19,7 +19,7 @@ export default function PopularFood() {
       onValue(dbRef, (snapshot) => {
           let data = snapshot.val();
           setMyfood(data)
-         // console.log("data is ",data[2])
+          // console.log("data is ",data[2])
 
       });
   }, [])

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import { useState, useEffect } from 'react';
-import { app } from "./Firebase";
+import { app } from "../Screens/firebase";
 import { getDatabase, ref, onValue, set, update } from "firebase/database";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 

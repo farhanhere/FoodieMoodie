@@ -1,0 +1,36 @@
+{
+    "food": [
+      {
+        "img": "https://firebasestorage.googleapis.com/v0/b/foodapp-14df9.appspot.com/o/burger0.png?alt=media&token=60c160bb-a42c-46f0-8bb0-5cb813737194",
+        "key": 0,
+        "price": 700,
+        "rating": "4.8",
+        "title": "Cheese Burger",
+        "liked": false
+      },
+      {
+        "img": "https://firebasestorage.googleapis.com/v0/b/foodapp-14df9.appspot.com/o/burger1.png?alt=media&token=ee8b6604-495c-4ba3-b857-5557213494bf",
+        "key": 1,
+        "price": 400,
+        "rating": "4.9",
+        "title": "Zinger Burger",
+        "liked": false
+      },
+      {
+        "img": "https://firebasestorage.googleapis.com/v0/b/foodapp-14df9.appspot.com/o/burger2.png?alt=media&token=4d8e7b03-843e-43c6-8110-4172db2db908",
+        "key": 2,
+        "price": 500,
+        "rating": "4.7",
+        "title": "Tikka Burger",
+        "liked": false
+      },
+      {
+        "img": "https://firebasestorage.googleapis.com/v0/b/foodapp-14df9.appspot.com/o/burger3.jpg?alt=media&token=8864eddd-a6bc-4ac1-993a-2c47392cc4e1",
+        "key": 3,
+        "price": 600,
+        "rating": "4.9",
+        "title": "Fish Burger",
+        "liked": false
+      }
+    ]
+  }
