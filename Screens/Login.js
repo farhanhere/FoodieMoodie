@@ -63,7 +63,7 @@ const Login = ({ navigation }) => {
       </View>
       <View style={styles.passwordcontainer}>
         <AntDesign name='lock' style={styles.icon} />
-        <TextInput style={styles.textinput} secureTextEntry={showPassword} placeholder="Password" value={password} onChangeText={setPassword}></TextInput>
+        <TextInput style={styles.textinput} secureTextEntry={!showPassword} placeholder="Password" value={password} onChangeText={setPassword}></TextInput>
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <AntDesign name={showPassword ? "eyeo" : "eye"} style={styles.icon} />
         </TouchableOpacity>

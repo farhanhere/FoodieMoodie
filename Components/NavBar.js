@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
   NavBar:{
   flexDirection:'row', 
   backgroundColor: 'white',
-  justifyContent:'center',
-  alignItems:'center',
+  justifyContent:'flex-end',
+  alignItems:'flex-end',
   marginTop:10 },
   icon:{
     fontSize:30,

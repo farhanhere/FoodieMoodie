@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View,  ScrollView } from 'react-native';
 import Bestseller from '../Components/Bestseller';
 import PopularFood from '../Components/PopularFood';
 import FoodCategory from '../Components/FoodCategory';
@@ -13,6 +13,7 @@ const Home = () => {
         <View>
             <View style={styles.view}>
             <Hometop/>
+            <ScrollView>
            <Text style={styles.header}>Food Category</Text>
             <FoodCategory/>
             <Text style={styles.header}>Popular Food</Text>
@@ -21,6 +22,8 @@ const Home = () => {
             
             <Text style={styles.header}>Best Seller</Text>
             <Bestseller/>
+
+            </ScrollView>
             
             </View>
             

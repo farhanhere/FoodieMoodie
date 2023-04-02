@@ -5,11 +5,13 @@ import { app } from "../Screens/firebase";
 import { getDatabase, ref, onValue, set, update } from "firebase/database";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import LikedButton from './LikedButton';
-
-
 export default function PopularFood() {
 
   const [myfood, setMyfood] = useState([])
+
+
+
+  
 
   useEffect(() => {
 
