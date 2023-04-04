@@ -2,7 +2,7 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Image } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import humburger from "../assets/hamburger.png"
-export default function NavBar() {
+export default function Hometop() {
 
     
 

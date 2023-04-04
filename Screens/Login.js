@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
         // Signed in
         const user = userCredential.user;
         console.log("user data,", user);
-        // console.log("user data,", user);
+        global.userID = user.uid
         // ...
        // Alert.alert('SignIn Successfully');
         navigation.navigate('Home');
