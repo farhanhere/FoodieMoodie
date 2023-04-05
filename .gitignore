@@ -1,5 +1,5 @@
 node_modules/
-firebase.js
+Screens/**/firebase.js
 .expo/
 dist/
 npm-debug.*
